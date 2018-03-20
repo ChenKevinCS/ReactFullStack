@@ -1,12 +1,29 @@
 const express = require('express');
-const app = express();
+const mongoose = require('mongoose');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-ouath20').Strategy;
+const cookieSession = require('cookie-session');
+const keys = require('./config/keys');
+require('./models/User');
+require('./services/passport');
 
-passport.use(new GoogleStrategy());
+mongoose.connect(keys.mongoURI);
+
+const app = express();
+
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey]
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./routes/authRoutes')(app);
 
 app.get('/', (req, res) => {
   res.send({ hi: 'there' });
 });
 
-app.listen(5000);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT);
