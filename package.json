@@ -6,13 +6,28 @@
     "node": "9.5.0",
     "yarn": "1.5.1"
   },
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "client": "yarn --cwd client run start",
+    "dev": "concurrently \"yarn run server\" \"yarn run client\"",
+    "heroku-postbuild":
+      "NPM_CONFIG_PRODUCTION=false yarn --cwd client add && yarn --cwd client run build "
+  },
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "concurrently": "^3.5.1",
     "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.3",
+    "localtunnel": "^1.8.3",
+    "lodash": "^4.17.5",
     "mongoose": "^5.0.10",
     "nodemon": "^1.17.2",
     "passport": "^0.4.0",
-    "passport-google-oauth20": "^1.0.0"
+    "passport-google-oauth20": "^1.0.0",
+    "path-parser": "^4.0.1",
+    "sendgrid": "^5.2.3",
+    "stripe": "^5.6.1"
   }
 }
